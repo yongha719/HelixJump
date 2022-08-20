@@ -27,6 +27,7 @@ public class BallController : MonoBehaviour
     {
         if (ignoreNextCollision)
             return;
+
         if (isSuperSpeedActive)
         {
             if (other.transform.TryGetComponent(out Goal goal))
@@ -38,20 +39,17 @@ public class BallController : MonoBehaviour
         else
         {
             DeathPart deathPart = other.transform.GetComponent<DeathPart>();
-            if (deathPart)
+            if (deathPart != null)
                 deathPart.HittedDeathPart();
         }
 
         rb.velocity = Vector3.zero;
         rb.AddForce(Vector3.up * impulseForce, ForceMode.Impulse);
+        print("jump");
 
-
-
-        // Safety check
         ignoreNextCollision = true;
-        Invoke("AllowCollision", .2f);
+        StartCoroutine(AllowCollision());
 
-        // Handlig super speed
         perfectPass = 0;
         isSuperSpeedActive = false;
     }
@@ -70,8 +68,9 @@ public class BallController : MonoBehaviour
         transform.position = startPos;
     }
 
-    private void AllowCollision()
+    private IEnumerator AllowCollision()
     {
+        yield return new WaitForSeconds(0.2f);
         ignoreNextCollision = false;
     }
 

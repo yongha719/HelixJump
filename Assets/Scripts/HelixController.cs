@@ -109,13 +109,13 @@ public class HelixController : MonoBehaviour
 
             foreach (Transform t in level.transform)
             {
-                print(t.name);
                 t.GetComponent<Renderer>().material.color = allStages[stageNumber].stageLevelPartColor;
 
                 if (t.gameObject.activeInHierarchy)
                     leftParts.Add(t.gameObject);
             }
 
+            // 죽는 부분 만들어줌
             List<GameObject> deathParts = new List<GameObject>();
 
             while (deathParts.Count < stage.levels[i].deathPartCount)
